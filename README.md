@@ -8,7 +8,7 @@ This project sets up a stateless frontend ( REACT ) that forwards data to a back
 
 ## Project Structure
 
-- [Basic Setup]()
+- [Basic Setup](/basic/readme.md)
 - [Backend Setup]()
 - [Frontend Setup]()
 - [Deployment]()
