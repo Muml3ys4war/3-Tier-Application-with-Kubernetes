@@ -10,7 +10,7 @@ spec:
     - protocol: TCP
       port: 27017
       targetPort: 27017
-  type: None
+  type: ClusterIP
 
 ---
 apiVersion: apps/v1
@@ -35,14 +35,32 @@ spec:
             - containerPort: 27017
               name: mongod
           env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              value: root
             - name: MONGO_INITDB_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: mongodb
-                  key: mongodb-root-password 
+                  key: mongo_root 
           volumeMounts:
             - name: mongodb-storage
               mountPath: /data/db
+          
+          livenessProbe:
+            tcpSocket:
+              port: 27017
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            tcpSocket:
+              port: 27017
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+            
       volumes:
         - name: mongodb-storage
           persistentVolumeClaim:
