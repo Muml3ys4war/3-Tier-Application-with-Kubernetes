@@ -20,8 +20,7 @@ kubectl get ns
 
 ```bash
 # create secret
-kubectl create secret generic mongodb
---from-literal=mongo_root="SuperSecurePassword" -n data
+kubectl create secret generic mongodb --from-literal=mongo_root="SuperSecurePassword" -n data
 
 # check for secret
 kubectl get secrets -n data
@@ -112,11 +111,13 @@ spec:
             - containerPort: 27017
               name: mongod
           env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              value: root
             - name: MONGO_INITDB_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: mongodb
-                  key: mongodb-root-password
+                  key: mongodb_root
           volumeMounts:
             - name: mongodb-storage
               mountPath: /data/db
@@ -137,4 +138,27 @@ kubectl describe svc mongodb-service -n data
 # checking for deployments
 kubectl get deployments -n data
 kubectl get pods -o wide -n data --show-labels
+```
+
+### Adding Readiness and Liveness probes in the Mongodb deployment to ensure the service is healthy ( Optional ) _( Recommended )_
+
+**Liveness Probe** : Checks if the MongoDB container is running. If the liveness probe fails, Kubernetes will restart the container to recover from a potential deadlock or crash.
+
+**Readiness Probe** : Determines if the MongoDB service is ready to accept connections. Until this probe passes, the pod is not considered ready, and it won't receive any traffic from the services.
+
+```yaml
+livenessProbe:
+  tcpSocket:
+    port: 27017
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 3
+readinessProbe:
+  tcpSocket:
+    port: 27017
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 3
 ```
