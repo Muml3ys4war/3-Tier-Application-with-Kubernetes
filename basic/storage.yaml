@@ -3,7 +3,8 @@ kind: PersistentVolume
 metadata:
   name: mongodb-pv
   namespace: data
-  labels: type:local
+  labels: 
+    type: local
 spec:
   storageClassName: manual
   capacity:
