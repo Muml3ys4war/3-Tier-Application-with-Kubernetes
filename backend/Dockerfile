@@ -11,11 +11,11 @@ COPY . /app
 RUN pip install --no-cache-dir flask pymongo
 
 # Expose port for APP 
-EXPOSE 5000
+EXPOSE 6000
 
 # Setup Environment Var
 ENV FLASK_APP=app.py
 ENV FLASK_RUN_HOST=0.0.0.0
 
 # Command to run the app
-CMD [" python " , "app.py"]
+CMD ["python" , "app.py"]
