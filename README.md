@@ -9,11 +9,11 @@ This project sets up a stateless frontend ( REACT ) that forwards data to a back
 ## Project Structure
 
 - [Basic Setup](/basic/readme.md)
-- [Backend Setup]()
-- [Frontend Setup]()
-- [Deployment]()
-- [Verify and Test]()
-- [Security]()
+- [Backend Setup](/backend/readme.md)
+- [Frontend Setup](/frontend/)
+- [Deployment](/deploy/readme.md)
+- [Verify and Test](/Verify_and_Test/readme.md)
+- [Security](/Security/readme.md)
 
 ## License
 
