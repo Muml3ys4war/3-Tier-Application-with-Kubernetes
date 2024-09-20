@@ -16,7 +16,7 @@ spec:
       nodeName: controlplane
       containers:
         - name: backend-flask
-          image: localhost:5000/test:latest 
+          image: localhost:5000/backend-flask:latest 
           ports:
             - containerPort: 6000
 
