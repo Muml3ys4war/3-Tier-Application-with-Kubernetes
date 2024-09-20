@@ -1,0 +1,36 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-frontend-to-backend
+  namespace: app
+spec:
+  podSelector:
+    matchLabels:
+      app: backend-flask
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: frontend-react
+      ports:
+        - protocol: TCP
+          port: 6000
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              app: frontend
+        - podSelector:
+            matchLabels:
+              app: mongodb
+          namespaceSelector:
+            matchLabels:
+              name: data
+      ports:
+        - protocol: TCP
+          port: 80   # Assuming frontend uses port 80
+        - protocol: TCP
+          port: 27017  # MongoDB's default port
